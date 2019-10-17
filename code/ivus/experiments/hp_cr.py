@@ -1,6 +1,6 @@
 import numpy
 import os
-import .state as state
+import ivus.experiments.state as state
 import gc
 import pandas as pd
 import pickle

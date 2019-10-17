@@ -1,6 +1,6 @@
 import numpy
 import os
-import .state as state
+import iivus.experiments.state as state
 import gc
 import pickle
 from ivus.data.dataset_managing import SequenceReader

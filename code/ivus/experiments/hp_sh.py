@@ -1,6 +1,6 @@
 import numpy
 import os
-import .state as state
+import ivus.experiments.state as state
 import gc
 import pickle
 from ivus.data.dataset_managing import SequenceReader
@@ -20,7 +20,7 @@ FOLDS = [3, 5, 9]
 SAVE_BASE = os.path.join(RESULTS_FOLDER, os.path.basename(__file__))
 MAX_EVALS = 100
 EPOCHS = 200
-BATCH_SIZE = 32
+BATCH_SIZE = 512
 TRIALS = Trials()
 eps = 10**(-3)
 

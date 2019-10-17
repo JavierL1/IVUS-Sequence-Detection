@@ -9,19 +9,11 @@ from keras.optimizers import Adam
 
 load_dotenv(find_dotenv())
 random_seed = int(os.getenv('RANDOMSEED'))
-GPU_ON = int(os.getenv('GPU_ON'))
+
 
 np.random.seed(random_seed)
 rn.seed(random_seed)
 tf.set_random_seed(random_seed)
-
-# Comment for a pro-gamer move
-if GPU_ON != 1:
-    config = tf.ConfigProto(
-        intra_op_parallelism_threads=1,
-        inter_op_parallelism_threads=1)
-    sess = tf.Session(graph=tf.get_default_graph(), config=config)
-    K.set_session(sess)
 
 
 # Base net with common methods and attributes
