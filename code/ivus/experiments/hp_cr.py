@@ -22,7 +22,7 @@ FOLDS = [3, 5, 9]
 SAVE_BASE = os.path.join(RESULTS_FOLDER, os.path.basename(__file__))
 MAX_EVALS = 300
 EPOCHS = 200
-BATCH_SIZE = 32
+BATCH_SIZE = 512
 TRIALS = Trials()
 eps = 10**(-3)
 
