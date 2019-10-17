@@ -604,7 +604,8 @@ class SequenceReader(object):
                 pullback_name = pullback_file.split('/')[-1]\
                                     .split('.')[0]
                 with open(
-                    PULLBACKS_DATA+'/'+pullback_name+'.pkl'
+                    PULLBACKS_DATA+'/'+pullback_name+'.pkl',
+                    'rb'
                 ) as pb_data:
                     pullback = pickle.load(pb_data)
 
