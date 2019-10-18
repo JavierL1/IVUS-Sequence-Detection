@@ -40,7 +40,9 @@ space = {
 }
 
 sequence_reader = SequenceReader(CNN_PREDICTIONS, FOLDS)
-
+csv_headers = [
+    'model_id', 'fold', 'beta_1', 'lr', 'recurrent_dropout', 'lstm_units',
+    'epoch', 'loss', 'acc', 'f1', 'val_loss', 'val_acc', 'val_f1', 'time']
 
 def cross_validation(params, sequence_reader=sequence_reader):
     best_f1 = []
@@ -77,39 +79,18 @@ def cross_validation(params, sequence_reader=sequence_reader):
         best_epoch = result.history['val_f1'].index(max_f1)
 
         if not state.created_csv:
-            df = pd.DataFrame([[
-                state.model_id,
-                current_fold,
-                params['beta_1'],
-                params['dropout'],
-                params['lr'],
-                params['recurrent_dropout'],
-                params['lstm_units'],
-                best_epoch+1,
-                result.history['loss'][best_epoch],
-                result.history['acc'][best_epoch],
-                result.history['f1'][best_epoch],
-                result.history['val_loss'][best_epoch],
-                result.history['val_acc'][best_epoch],
-                max_f1,
-                elapsed_time,
-                ]], columns=[
-                    'model_id', 'fold', 'beta_1', 'dropout',
-                    'lr', 'recurrent_dropout', 'lstm_units', 'epoch', 'loss',
-                    'acc', 'f1', 'val_loss', 'val_acc', 'val_f1', 'time']
-                )
-
-            df.to_csv('{}/summary.csv'.format(SAVE_BASE), index=False)
+            with open('{}/summary.csv'.format(SAVE_BASE), 'w') as csv_file:
+                csv_file.write(', '.join(csv_headers))
+                csv_file.write('\n')
             state.created_csv = True
 
-        else:
-            df = pd.read_csv('{}/summary.csv'.format(SAVE_BASE),
-                             float_precision='round_trip')
-            df = pd.concat([df, pd.DataFrame([[
+        print('elapsed_time: {} {}'.format(elapsed_time, type(elapsed_time)))
+
+        with open('{}/summary.csv'.format(SAVE_BASE), 'a') as csv_file:
+            csv_file.write(', '.join(map(str, [
                 state.model_id,
                 current_fold,
                 params['beta_1'],
-                params['dropout'],
                 params['lr'],
                 params['recurrent_dropout'],
                 params['lstm_units'],
@@ -120,13 +101,9 @@ def cross_validation(params, sequence_reader=sequence_reader):
                 result.history['val_loss'][best_epoch],
                 result.history['val_acc'][best_epoch],
                 max_f1,
-                elapsed_time,
-                ]], columns=[
-                    'model_id', 'fold', 'beta_1', 'dropout', 'lr',
-                    'lstm_units', 'recurrent_dropout', 'epoch', 'loss', 'acc',
-                    'f1', 'val_loss', 'val_acc', 'val_f1', 'time']
-                )], ignore_index=True)
-            df.to_csv('{}/summary.csv'.format(SAVE_BASE), index=False)
+                elapsed_time
+            ])))
+            csv_file.write('\n')
     return best_f1
 
 
