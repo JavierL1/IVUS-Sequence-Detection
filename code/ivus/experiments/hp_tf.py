@@ -178,7 +178,7 @@ print("Best performing model chosen hyper-parameters:")
 print(best_hparams)
 
 with open('{}/top_5_best.txt'.format(SAVE_BASE),
-          'wb') as top_5_txt:
+          'w') as top_5_txt:
     for model in state.top_5_best:
         top_5_txt.write('model_id: {}\n'.format(model['model_id']))
         top_5_txt.write('val_f1: {}\n'.format(model['val_f1']))

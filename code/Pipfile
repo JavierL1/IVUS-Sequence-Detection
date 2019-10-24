@@ -4,6 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+ivus = {editable = true,path = "."}
 
 [packages]
 keras = "==2.2.0"
@@ -11,7 +12,7 @@ scikit-image = "*"
 hyperopt = "*"
 python-dotenv = "*"
 sklearn = "*"
-ivus = {path = ".",editable = true}
+ivus = {editable = true,path = "."}
 tensorflow = "==1.9.0"
 
 [requires]

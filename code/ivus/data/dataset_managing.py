@@ -537,9 +537,9 @@ class SequenceReader(object):
                 x, meta_x = cropping(info['x'], window_size)
                 y, meta_y = cropping(info['y'], window_size)
 
-                #print('Fold {}'.format(fold))
-                #print('Shape x_{}: {}'.format(data_subset, x.shape))
-                #print('Shape y_{}: {}'.format(data_subset, y.shape))
+                print('Fold {}'.format(fold))
+                print('Shape x_{}: {}'.format(data_subset, x.shape))
+                print('Shape y_{}: {}'.format(data_subset, y.shape))
 
                 result['x_'+data_subset] = {
                     'data': x,

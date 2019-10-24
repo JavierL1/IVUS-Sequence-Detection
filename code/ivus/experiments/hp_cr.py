@@ -2,7 +2,6 @@ import numpy
 import os
 import ivus.experiments.state as state
 import gc
-import pandas as pd
 import pickle
 from ivus.data.dataset_managing import SequenceReader
 from dotenv import load_dotenv, find_dotenv
@@ -170,7 +169,7 @@ print("Best performing model chosen hyper-parameters:")
 print(best_hparams)
 
 with open('{}/top_5_best.txt'.format(SAVE_BASE),
-          'wb') as top_5_txt:
+          'w') as top_5_txt:
     for model in state.top_5_best:
         top_5_txt.write('model_id: {}\n'.format(model['model_id']))
         top_5_txt.write('val_f1: {}\n'.format(model['val_f1']))
