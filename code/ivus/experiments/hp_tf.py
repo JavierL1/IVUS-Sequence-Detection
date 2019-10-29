@@ -3,7 +3,7 @@ import os
 import ivus.experiments.state as state
 import gc
 import pickle
-from data.dataset_managing import SequenceReader
+from ivus.data.dataset_managing import SequenceReader
 from dotenv import load_dotenv, find_dotenv
 from ivus.models.net_wrappers import HDARNN, NewNet
 from time import time

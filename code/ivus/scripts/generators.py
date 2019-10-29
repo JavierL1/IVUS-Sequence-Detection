@@ -11,7 +11,8 @@ MAX_TF_LENGTH = int(os.getenv('MAX_TF_LENGTH'))
 STEP_TF_LENGTH = int(os.getenv('STEP_TF_LENGTH'))
 CR_SIZE = int(os.getenv('CR_SIZE'))
 
-dm = DataManager(processed_data=PROCESSED_DATA)
+#dm = DataManager(processed_data=PROCESSED_DATA)
+dm = None
 sr = SequenceReader(CNN_PREDICTIONS)
 
 
@@ -24,6 +25,9 @@ def shifted_generator():
 
 
 def cropped_generator(window_size, stride=1):
+    print('In cropped generator...')
+    print(window_size)
+    print(sr.generate_cropped_data)
     sr.generate_cropped_data(window_size, stride=stride, train_rnn=True)
 
 
@@ -33,11 +37,4 @@ def pullback_serializer():
 
 
 if __name__ == "__main__":
-    for tf_length in range(
-        MIN_TF_LENGTH, MAX_TF_LENGTH + STEP_TF_LENGTH, STEP_TF_LENGTH
-    ):
-        timefold_generator(tf_length)
-
-    shifted_generator()
-    cropped_generator(40)
-    pullback_serializer()
+    cropped_generator(CR_SIZE)

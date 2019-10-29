@@ -145,7 +145,7 @@ def objective_function(params):
             state.top_5_best, key=lambda x: x['val_f1'])
         if min_item['val_f1'] < validation_f1:
             print('Added model to top 5')
-            index = top_5_best.index(min_item)
+            index = state.top_5_best.index(min_item)
             state.top_5_best[index] = {
                 'model_id': state.model_id,
                 'val_f1': validation_f1,

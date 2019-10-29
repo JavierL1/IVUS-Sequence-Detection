@@ -19,7 +19,7 @@ CR_SIZE = int(os.getenv('CR_SIZE'))
 
 FOLDS = [3, 5, 9]
 SAVE_BASE = os.path.join(RESULTS_FOLDER, os.path.basename(__file__))
-MAX_EVALS = 300
+MAX_EVALS = 100
 EPOCHS = 200
 BATCH_SIZE = 512
 TRIALS = Trials()
@@ -157,7 +157,7 @@ def objective_function(params):
     print('Mean validation f1: {}'.format(validation_f1))
     return {'loss': -validation_f1, 'params': params, 'status': STATUS_OK}
 
-
+'''
 best_hparams = fmin(
     fn=objective_function,
     space=space,
@@ -180,8 +180,11 @@ with open('{}/top_5_best.txt'.format(SAVE_BASE),
 with open('{}/top_5_best.pkl'.format(SAVE_BASE),
           'wb') as top_5:
     pickle.dump(state.top_5_best, top_5)
+'''
+with open('{}/top_5_best.pkl'.format(SAVE_BASE), 'rb') as top_5_best_file:
+    top_5_best = pickle.load(top_5_best_file)
 
-for rnn_model in state.top_5_best:
+for rnn_model in top_5_best:
     model_base_path = '{}/model_{}'.format(SAVE_BASE, rnn_model['model_id'])
     if not os.path.exists(model_base_path):
         os.makedirs(model_base_path)
@@ -189,8 +192,8 @@ for rnn_model in state.top_5_best:
     if not os.path.exists(model_save_path):
         os.makedirs(model_save_path)
     model = NewNet(
-        'rnn', 10, save_path=model_save_path, epochs=1000,
-        params=rnn_model['params'])
+        'rnn', 10, save_path=model_save_path, batch_size=BATCH_SIZE,
+        epochs=1000, params=rnn_model['params'])
     sequence_reader = SequenceReader(CNN_PREDICTIONS, range(1, 11))
 
     for dataset in sequence_reader.get_cropped_dataset(CR_SIZE):

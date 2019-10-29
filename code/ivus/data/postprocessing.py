@@ -251,7 +251,7 @@ def cropping(sequences, window_size, stride=1):
             ))
         else:
             n_longs += 1
-            n_windows = (seq_len - window_size) / stride + 1
+            n_windows = int((seq_len - window_size) / stride + 1)
             for window in [
                 seq[0+index:window_size+index]
                 for index in range(n_windows)
