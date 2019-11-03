@@ -20,7 +20,8 @@ MAX_TF_LENGTH = int(os.getenv('MAX_TF_LENGTH'))
 STEP_TF_LENGTH = int(os.getenv('STEP_TF_LENGTH'))
 
 FOLDS = [3, 5, 9]
-SAVE_BASE = os.path.join(RESULTS_FOLDER, os.path.basename(__file__))
+SAVE_BASE = os.path.join(
+    RESULTS_FOLDER, os.path.basename(__file__.split('.')[0]))
 MAX_EVALS = 100
 EPOCHS = 200
 BATCH_SIZE = 32

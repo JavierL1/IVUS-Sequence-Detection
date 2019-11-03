@@ -17,7 +17,8 @@ CNN_PREDICTIONS = os.getenv('CNN_PREDICTIONS')
 RESULTS_FOLDER = os.getenv('RESULTS_FOLDER')
 
 FOLDS = [3, 5, 9]
-SAVE_BASE = os.path.join(RESULTS_FOLDER, os.path.basename(__file__))
+SAVE_BASE = os.path.join(
+    RESULTS_FOLDER, os.path.basename(__file__.split('.')[0]))
 MAX_EVALS = 100
 EPOCHS = 200
 BATCH_SIZE = 32

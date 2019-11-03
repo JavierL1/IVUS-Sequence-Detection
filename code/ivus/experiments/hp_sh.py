@@ -17,7 +17,8 @@ CNN_PREDICTIONS = os.getenv('CNN_PREDICTIONS')
 RESULTS_FOLDER = os.getenv('RESULTS_FOLDER')
 
 FOLDS = [3, 5, 9]
-SAVE_BASE = os.path.join(RESULTS_FOLDER, os.path.basename(__file__))
+SAVE_BASE = os.path.join(
+    RESULTS_FOLDER, os.path.basename(__file__.split('.')[0]))
 MAX_EVALS = 100
 EPOCHS = 200
 BATCH_SIZE = 512
@@ -193,7 +194,7 @@ for rnn_model in top_5_best:
         os.makedirs(model_save_path)
     model = NewNet(
         'rnn', 10, save_path=model_save_path, epochs=1000,
-        params=rnn_model['params'])
+        batch_size=BATCH_SIZE, params=rnn_model['params'])
     sequence_reader = SequenceReader(CNN_PREDICTIONS, range(1, 11))
 
     for dataset in sequence_reader.get_shifted_dataset():

@@ -17,7 +17,8 @@ CNN_PREDICTIONS = os.getenv('CNN_PREDICTIONS')
 RESULTS_FOLDER = os.getenv('RESULTS_FOLDER')
 
 FOLDS = [3, 5, 9]
-SAVE_BASE = os.path.join(RESULTS_FOLDER, os.path.basename(__file__))
+SAVE_BASE = os.path.join(
+    RESULTS_FOLDER, os.path.basename(__file__.split('.')[0]))
 MAX_EVALS = 100
 EPOCHS = 200
 BATCH_SIZE = 512
@@ -184,7 +185,7 @@ with open('{}/top_5_best.pkl'.format(SAVE_BASE),
 with open('{}/top_5_best.pkl'.format(SAVE_BASE), 'rb') as top_5_best_file:
     top_5_best = pickle.load(top_5_best_file)
 
-for rnn_model in top_5_best:
+for rnn_model in top_5_best[3:]:
     model_base_path = '{}/model_{}'.format(SAVE_BASE, rnn_model['model_id'])
     if not os.path.exists(model_base_path):
         os.makedirs(model_base_path)
@@ -193,7 +194,7 @@ for rnn_model in top_5_best:
         os.makedirs(model_save_path)
     model = NewNet(
         'rnn', 10, save_path=model_save_path, epochs=1000,
-        params=rnn_model['params'])
+        params=rnn_model['params'], batch_size=BATCH_SIZE)
     sequence_reader = SequenceReader(CNN_PREDICTIONS, range(1, 11))
 
     for dataset in sequence_reader.get_rotated_dataset():

@@ -18,7 +18,8 @@ RESULTS_FOLDER = os.getenv('RESULTS_FOLDER')
 CR_SIZE = int(os.getenv('CR_SIZE'))
 
 FOLDS = [3, 5, 9]
-SAVE_BASE = os.path.join(RESULTS_FOLDER, os.path.basename(__file__))
+SAVE_BASE = os.path.join(
+    RESULTS_FOLDER, os.path.basename(__file__.split('.')[0]))
 MAX_EVALS = 100
 EPOCHS = 200
 BATCH_SIZE = 512
@@ -42,6 +43,7 @@ sequence_reader = SequenceReader(CNN_PREDICTIONS, FOLDS)
 csv_headers = [
     'model_id', 'fold', 'beta_1', 'lr', 'recurrent_dropout', 'lstm_units',
     'epoch', 'loss', 'acc', 'f1', 'val_loss', 'val_acc', 'val_f1', 'time']
+
 
 def cross_validation(params, sequence_reader=sequence_reader):
     best_f1 = []
@@ -157,7 +159,7 @@ def objective_function(params):
     print('Mean validation f1: {}'.format(validation_f1))
     return {'loss': -validation_f1, 'params': params, 'status': STATUS_OK}
 
-'''
+
 best_hparams = fmin(
     fn=objective_function,
     space=space,
@@ -180,7 +182,7 @@ with open('{}/top_5_best.txt'.format(SAVE_BASE),
 with open('{}/top_5_best.pkl'.format(SAVE_BASE),
           'wb') as top_5:
     pickle.dump(state.top_5_best, top_5)
-'''
+
 with open('{}/top_5_best.pkl'.format(SAVE_BASE), 'rb') as top_5_best_file:
     top_5_best = pickle.load(top_5_best_file)
 
