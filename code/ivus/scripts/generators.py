@@ -11,8 +11,7 @@ MAX_TF_LENGTH = int(os.getenv('MAX_TF_LENGTH'))
 STEP_TF_LENGTH = int(os.getenv('STEP_TF_LENGTH'))
 CR_SIZE = int(os.getenv('CR_SIZE'))
 
-#dm = DataManager(processed_data=PROCESSED_DATA)
-dm = None
+dm = DataManager(processed_data=PROCESSED_DATA)
 sr = SequenceReader(CNN_PREDICTIONS)
 
 
@@ -34,7 +33,3 @@ def cropped_generator(window_size, stride=1):
 def pullback_serializer():
     dm.save_all_pullbacks(
         train_cnn=True, val=True, train_rnn=True, test=True)
-
-
-if __name__ == "__main__":
-    cropped_generator(CR_SIZE)
