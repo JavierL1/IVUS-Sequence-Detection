@@ -1,0 +1,35 @@
+model_id: 76
+val_f1: 0.639311
+params:
+  lr: 0.0011153397592405462
+  lstm_units: 30.0
+  recurrent_dropout: 0.1
+  beta_1: 0.9783576568148036
+model_id: 72
+val_f1: 0.630357
+params:
+  lr: 0.0013832968170897494
+  lstm_units: 20.0
+  recurrent_dropout: 0.1
+  beta_1: 0.9795270480699984
+model_id: 66
+val_f1: 0.624117
+params:
+  lr: 0.001787287371382907
+  lstm_units: 22.0
+  recurrent_dropout: 0.1
+  beta_1: 0.9577524012011837
+model_id: 19
+val_f1: 0.622951
+params:
+  lr: 0.00037756557156347267
+  lstm_units: 38.0
+  recurrent_dropout: 0
+  beta_1: 0.7674227065892781
+model_id: 68
+val_f1: 0.618924
+params:
+  lr: 0.0013262649440642872
+  lstm_units: 22.0
+  recurrent_dropout: 0.1
+  beta_1: 0.9672404538347111
