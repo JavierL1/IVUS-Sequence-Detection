@@ -15,6 +15,7 @@ sklearn = "*"
 ivus = {editable = true,path = "."}
 tensorflow-gpu = "==1.9.0"
 pyspark = "*"
+pandas = "*"
 
 [requires]
 python_version = "3.5"
