@@ -16,7 +16,8 @@ sr = SequenceReader(CNN_PREDICTIONS)
 
 
 def timefold_generator(tf_length):
-    sr.generate_timefolded_data(tf_length, train_rnn=True, val=True, test=True)
+    sr.generate_timefolded_data(
+        tf_length, train_cnn=True, train_rnn=True, val=True, test=True)
 
 
 def shifted_generator():
@@ -33,3 +34,8 @@ def cropped_generator(window_size, stride=1):
 def pullback_serializer():
     dm.save_all_pullbacks(
         train_cnn=True, val=True, train_rnn=True, test=True)
+
+
+if __name__ == "__main__":
+    for tf_length in range(MIN_TF_LENGTH, MAX_TF_LENGTH+STEP_TF_LENGTH, STEP_TF_LENGTH):
+        timefold_generator(tf_length)

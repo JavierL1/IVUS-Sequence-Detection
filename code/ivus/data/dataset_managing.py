@@ -447,7 +447,7 @@ class SequenceReader(object):
                         data = pickle.load(data_file)
                         result['x_'+key] = data['x']
                         result['y_'+key] = data['y']
-                        #result['names_'+key] = data['names']
+                        result['names_'+key] = data['names']
 
             yield result if result else None
 
