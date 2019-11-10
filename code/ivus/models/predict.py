@@ -7,20 +7,20 @@ load_dotenv(find_dotenv())
 
 
 def make_predictions(
-    base_path, model_id, objects, data_generator, subsets, best=True
+    base_path, objects, data_generator, tf_length=None, **kwargs
 ):
-
-    model_name_end = '_best.model' if best else '.model'
-
-    predictions_path = os.path.join(base_path, 'Predictions')
+    subsets = [subset for subset, value in kwargs.items() if value]
+    predictions_path = os.path.join(base_path, 'predictions')
     if not os.path.exists(predictions_path):
         os.makedirs(predictions_path)
-    for dataset in tqdm(data_generator()):
+    for dataset in tqdm(
+        data_generator() if not tf_length else data_generator(tf_length)
+    ):
 
         fold_model_path = os.path.join(
             base_path,
             'models',
-            'fold_{}{}'.format(dataset['fold'], model_name_end)
+            'fold_{}_best.model'.format(dataset['fold'])
         )
         model = load_model(fold_model_path, custom_objects=objects)
 
@@ -29,8 +29,8 @@ def make_predictions(
             y_pred = model.predict(dataset['x_'+subset])
             save_folder = os.path.join(
                 predictions_path,
-                '{}/{}/CSV/{}'.format(
-                    model_id, dataset['fold'], subset.upper())
+                '{}/{}'.format(
+                    dataset['fold'], subset.upper())
             )
             if not os.path.exists(save_folder):
                 os.makedirs(save_folder)

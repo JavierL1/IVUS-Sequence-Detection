@@ -17,7 +17,8 @@ CNN_PREDICTIONS = os.getenv('CNN_PREDICTIONS')
 RESULTS_FOLDER = os.getenv('RESULTS_FOLDER')
 
 FOLDS = [3, 5, 9]
-SAVE_BASE = os.path.join(RESULTS_FOLDER, os.path.basename(__file__))
+SAVE_BASE = os.path.join(
+    RESULTS_FOLDER, os.path.basename(__file__.split('.')[0]))
 MAX_EVALS = 100
 EPOCHS = 200
 BATCH_SIZE = 32
@@ -145,7 +146,7 @@ def objective_function(params):
             state.top_5_best, key=lambda x: x['val_f1'])
         if min_item['val_f1'] < validation_f1:
             print('Added model to top 5')
-            index = top_5_best.index(min_item)
+            index = state.top_5_best.index(min_item)
             state.top_5_best[index] = {
                 'model_id': state.model_id,
                 'val_f1': validation_f1,

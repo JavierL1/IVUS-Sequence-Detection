@@ -296,6 +296,7 @@ class SequenceReader(object):
     def __init__(self, signals_folder, folds=range(1, 11)):
         self.signals_folder = signals_folder
         self.folds = folds
+        print('Sequence Reader init')
 
     def get_dataset(self, pad=1, labels='union', folds=None, **kwargs):
         if folds is not None:
@@ -446,7 +447,7 @@ class SequenceReader(object):
                         data = pickle.load(data_file)
                         result['x_'+key] = data['x']
                         result['y_'+key] = data['y']
-                        #result['names_'+key] = data['names']
+                        result['names_'+key] = data['names']
 
             yield result if result else None
 
@@ -513,6 +514,7 @@ class SequenceReader(object):
     def generate_cropped_data(
         self, window_size, stride=1, folds=None, save_data=True, **kwargs
     ):
+        print('In generate cropped data')
         if folds is not None:
             self.folds = folds
 
@@ -560,8 +562,6 @@ class SequenceReader(object):
                     )
                     with open(save_file, 'wb') as output:
                         pickle.dump(folded_data, output)
-                
-            yield result
 
     def get_cropped_dataset(self, window_size, folds=None):
         if folds is not None:

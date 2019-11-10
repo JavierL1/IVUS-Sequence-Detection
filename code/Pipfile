@@ -13,7 +13,9 @@ hyperopt = "*"
 python-dotenv = "*"
 sklearn = "*"
 ivus = {editable = true,path = "."}
-tensorflow = "==1.9.0"
+tensorflow-gpu = "==1.9.0"
+pyspark = "*"
+pandas = "*"
 
 [requires]
 python_version = "3.5"

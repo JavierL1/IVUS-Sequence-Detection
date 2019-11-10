@@ -3,7 +3,7 @@ import os
 import ivus.experiments.state as state
 import gc
 import pickle
-from data.dataset_managing import SequenceReader
+from ivus.data.dataset_managing import SequenceReader
 from dotenv import load_dotenv, find_dotenv
 from ivus.models.net_wrappers import HDARNN, NewNet
 from time import time
@@ -20,7 +20,8 @@ MAX_TF_LENGTH = int(os.getenv('MAX_TF_LENGTH'))
 STEP_TF_LENGTH = int(os.getenv('STEP_TF_LENGTH'))
 
 FOLDS = [3, 5, 9]
-SAVE_BASE = os.path.join(RESULTS_FOLDER, os.path.basename(__file__))
+SAVE_BASE = os.path.join(
+    RESULTS_FOLDER, os.path.basename(__file__.split('.')[0]))
 MAX_EVALS = 100
 EPOCHS = 200
 BATCH_SIZE = 32
