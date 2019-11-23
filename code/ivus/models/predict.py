@@ -7,7 +7,7 @@ load_dotenv(find_dotenv())
 
 
 def make_predictions(
-    base_path, objects, data_generator, tf_length=None, **kwargs
+    base_path, objects, data_generator, tf_length=None, pre=False, **kwargs
 ):
     subsets = [subset for subset, value in kwargs.items() if value]
     predictions_path = os.path.join(base_path, 'predictions')
@@ -41,7 +41,10 @@ def make_predictions(
                     for frame in range(dataset['y_'+subset].shape[1]):
                         real_value = dataset['y_'+subset][pb_index][frame][0]
                         if real_value == -1:
-                            break
+                            if pre:
+                                continue
+                            else:
+                                break
                         csvfile.write(
                             '{}, {}\n'.format(
                                 y_pred[pb_index][frame][0],
