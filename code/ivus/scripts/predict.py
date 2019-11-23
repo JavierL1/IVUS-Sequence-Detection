@@ -49,6 +49,7 @@ with open(
 
 exp_index = int(sys.argv[1])
 model_index = int(sys.argv[2])
+pre = int(sys.argv[3]) == 1
 sr = SequenceReader(CNN_PREDICTIONS)
 
 
@@ -74,4 +75,5 @@ make_predictions(
     objects,
     exp['generator'],
     tf_length=tf_length,
+    pre=pre,
     **SUBSETS)

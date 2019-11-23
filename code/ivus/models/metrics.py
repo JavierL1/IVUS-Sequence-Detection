@@ -61,7 +61,8 @@ def compute_confusion_matrix(y_true, y_pred, threshold=0.5):
                 conf_matrix['tn'] += 1
 
     conf_matrix['total'] = np.float32(len(y_true))
-
+    if len(y_true) == 0:
+        print(y_true)
     return conf_matrix
 
 
@@ -107,7 +108,7 @@ def calculate_pb_metrics(pbs_path, pb_filename):
     real = []
     with open(pb_path, 'r') as pb_file:
         csv_lines = csv.reader(pb_file, delimiter=',')
-        for index, line in enumerate(csv_lines):
+        for line in csv_lines:
             pred.append(np.float32(line[0]))
             real.append(np.float32(line[1]))
     pred = np.array(pred)
@@ -140,8 +141,7 @@ class ModelMetrics(object):
             )
             self.preds_path = os.path.join(
                 self.model_folder,
-                'predictions',
-                exp_name
+                'predictions'
             )
         else:
             self.model_id = model_id
@@ -152,8 +152,7 @@ class ModelMetrics(object):
             )
             self.preds_path = os.path.join(
                 self.model_folder,
-                'predictions',
-                'model_{}'.format(model_id)
+                'predictions'
             )
         self.calculate_all_pullback_metrics()
         self.calculate_subsets_metrics()
@@ -177,7 +176,6 @@ class ModelMetrics(object):
                 pbs_path = os.path.join(
                     self.preds_path,
                     str(fold),
-                    'CSV',
                     subset.upper()
                 )
                 for pb_filename in os.listdir(pbs_path):
@@ -193,16 +191,6 @@ class ModelMetrics(object):
         for subset in SUBSETS:
             self.subsets_metrics[subset] = {}
             for _type in types:
-                all_values = [
-                    self.metrics[fold][subset][pb_name][_type]
-                    for fold in FOLDS
-                    for pb_name in self.metrics[fold][subset].keys()
-                ]
-                self.subsets_metrics[subset].update({
-                    '{}_{}'.format(_type, meas_name): meas_fun(all_values)
-                    for meas_name, meas_fun in zip(
-                        ['global_mean', 'global_mean_std'], [np.mean, np.std])
-                })
                 mean_values = [
                     np.mean([
                         self.metrics[fold][subset][pb_name][_type]
@@ -213,7 +201,7 @@ class ModelMetrics(object):
                 self.subsets_metrics[subset].update({
                     '{}_{}'.format(_type, meas_name): meas_fun(mean_values)
                     for meas_name, meas_fun in zip(
-                        ['mean_of_means', 'mean_of_means_std'],
+                        ['means', 'means_std'],
                         [np.mean, np.std])
                 })
                 median_values = [
@@ -226,7 +214,7 @@ class ModelMetrics(object):
                 self.subsets_metrics[subset].update({
                     '{}_{}'.format(_type, meas_name): meas_fun(median_values)
                     for meas_name, meas_fun in zip(
-                        ['mean_of_medians', 'mean_of_medians_std'],
+                        ['medians', 'medians_std'],
                         [np.mean, np.std])
                 })
 
