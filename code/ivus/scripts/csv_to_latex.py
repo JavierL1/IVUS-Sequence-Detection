@@ -5,7 +5,6 @@ from pickle import load
 from ivus.models.metrics import get_metrics
 
 TOP_5_FILENAME = 'top_5_best.pkl'
-HYPERPARAM_TABLE_FILENAME = '{}_hp.tex'
 MODEL_SUFIX = 'hp_'
 
 RESULTS_FOLDER = sys.argv[1]
@@ -29,20 +28,23 @@ class ExperimentLatexWriter:
         self.keyword = self.name.replace(MODEL_SUFIX, '')
         self.top_5_models = load_top_5_models(self.folder)
         self.parameters_tex_path = os.path.join(
-            self.folder, f'{self.name}_params.tex'
+            self.folder, '{}_params.tex'.format(self.name)
         )
         self.metrics_tex_path = os.path.join(
-            self.folder, f'{self.name}_metrics.tex'
+            self.folder, '{}_metrics.tex'.format(self.name)
         )
 
     def _get_parameters_line(self, model_data):
         model_params = model_data['params']
         return (
-            f'{self.keyword.upper()}-${model_data["model_id"]}$ & '
-            f'${model_params["beta_1"]:.3e}$ & '
-            f'${model_params["recurrent_dropout"]}$ & '
-            f'${model_params["lr"]:.3e}$ & '
-            f'${model_params["lstm_units"]}$ \\\\\n'
+            '{0}-${1}$ & ${2:.3e}$ & ${3}$ & ${4:.3e}$ & ${5}$ \\\\\n'.format(
+                self.keyword.upper(),
+                model_data["model_id"],
+                model_params["beta_1"],
+                model_params["recurrent_dropout"],
+                model_params["lr"],
+                model_params["lstm_units"]
+            )
         )
 
     def _write_parameters_line(self, model_data):
@@ -54,17 +56,26 @@ class ExperimentLatexWriter:
             self._write_parameters_line(model_data)
 
     def _get_metrics_values_line(self, model_metrics, subset):
+        subset_metrics = model_metrics.subsets_metrics[subset]
         return (
-            f'${model_metrics[subset]["f1_medians"]:.2f}\,\,({model_metrics[subset]["f1_medians_std"]:.2f})$ & '
-            f'${model_metrics[subset]["pre_medians"]:.2f}\,\,({model_metrics[subset]["pre_medians_std"]:.2f})$ & '
-            f'${model_metrics[subset]["rec_medians"]:.2f}\,\,({model_metrics[subset]["rec_medians_std"]:.2f})$'
+            '${0:.2f}\,\,({1:.2f})$ & ${2:.2f}\,\,({3:.2f})$ & ${4:.2f}\,\,({5:.2f})$'.format(
+                subset_metrics["f1_medians"],
+                subset_metrics["f1_medians_std"],
+                subset_metrics["pre_medians"],
+                subset_metrics["pre_medians_std"],
+                subset_metrics["rec_medians"],
+                subset_metrics["rec_medians_std"]
+            )
         )
 
     def _get_metrics_line(self, model_id, model_metrics):
         return (
-            f'{self.keyword.upper()}-${model_id}$'
-            f' & {self._get_metrics_values_line(model_metrics, "val")}'
-            f' & {metrics_line} & {self._get_metrics_values_line(model_metrics, "test")} \\\\\n'
+            '{0}-${1}$ & {2} & {3} \\\\\n'.format(
+                self.keyword.upper(),
+                model_id,
+                self._get_metrics_values_line(model_metrics, "val"),
+                self._get_metrics_values_line(model_metrics, "test"),
+            )
         )
 
     def _write_metrics_line(self, model_id):
@@ -83,7 +94,6 @@ def write_latex_tables():
         latex_writer = ExperimentLatexWriter(experiment_folder)
         latex_writer.write_parameters_table()
         latex_writer.write_metrics_table()
-        return
 
 if __name__ == "__main__":
     write_latex_tables()
