@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv, find_dotenv
-from ivus.models.metrics import ModelMetrics
+from ivus.models.model_metrics import ModelMetrics
 
 load_dotenv(find_dotenv())
 RESULTS_FOLDER = os.getenv('RESULTS_FOLDER')

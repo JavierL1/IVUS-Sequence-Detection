@@ -1,7 +1,7 @@
 import json
 import os
 
-from ivus.models.metrics import get_metrics
+from ivus.models.model_metrics import get_metrics
 
 RESULTS_FOLDER = os.getenv('RESULTS_FOLDER')
 
