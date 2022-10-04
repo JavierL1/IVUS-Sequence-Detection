@@ -1,0 +1,6 @@
+python kfold_double_tunning.py C:\Users\javie\Documents\IVUS-Sequence-Detection\data\CNN5a C:\Users\javie\Documents\IVUS-Sequence-Detection\data\CNN5a\tuning\ 0 1
+
+python apply_best_params_py3.py C:\Users\javie\Documents\IVUS-Sequence-Detection\data\CNN5a C:\Users\javie\Documents\IVUS-Sequence-Detection\data\CNN5a\smoothed\ C:\Users\javie\Documents\IVUS-Sequence-Detection\data\CNN5a\tuning\MEDIAN_SUBSET_TRAIN_CNN_STACKED0.pkl 0 1
+python apply_best_params_py3.py C:\Users\javie\Documents\IVUS-Sequence-Detection\data\CNN5a C:\Users\javie\Documents\IVUS-Sequence-Detection\data\CNN5a\smoothed\ C:\Users\javie\Documents\IVUS-Sequence-Detection\data\CNN5a\tuning\MEDIAN_SUBSET_TRAIN_CNN_STACKED0.pkl 1 1
+python apply_best_params_py3.py C:\Users\javie\Documents\IVUS-Sequence-Detection\data\CNN5a C:\Users\javie\Documents\IVUS-Sequence-Detection\data\CNN5a\smoothed\ C:\Users\javie\Documents\IVUS-Sequence-Detection\data\CNN5a\tuning\MEDIAN_SUBSET_TRAIN_CNN_STACKED0.pkl 2 1
+python apply_best_params_py3.py C:\Users\javie\Documents\IVUS-Sequence-Detection\data\CNN5a C:\Users\javie\Documents\IVUS-Sequence-Detection\data\CNN5a\smoothed\ C:\Users\javie\Documents\IVUS-Sequence-Detection\data\CNN5a\tuning\MEDIAN_SUBSET_TRAIN_CNN_STACKED0.pkl 3 1
