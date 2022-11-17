@@ -6,13 +6,13 @@ from UBMetrics import compute_confusion, PRAF_from_confusion
 import pickle
 
 # Main folder
-# Usualy 'CNN{net}/Predictions/CNN{net}'
+# '../data/CNN5a/'
 main_dir = sys.argv[1]
-# 'CNN1a/Results/'
+# 'smoothed/'
 base_result_filename = sys.argv[2]#e.g. "KFOLD_DTUNNING_NET3L"
-# 'CNN1a/Tuning/MEDIAN_SUBSET_{EXTRAIN/TRAIN}_STACKED0.pkl'
+# 'tuning/MEDIAN_SUBSET_TRAIN_CNN_STACKED0.pkl'
 filename_to_extract = sys.argv[3]
-# 1
+# 2
 subset_apply = int(sys.argv[4]) #0:train, 1:extra, 2:test, other:all
 # 1
 mode_tunning = int(sys.argv[5]) #0:mean among folds, other:median among folds
@@ -117,6 +117,7 @@ def evaluate_for_one_fold(files_fold,sigma=2,theta=0.5,fold_description='None'):
 		metrics[count_pullback,2] = R 
 		metrics[count_pullback,3] = F
 		count_pullback +=1
+		save_prediction(groundtruth, smoothed_probabilities, f)
 
 	means = np.mean(metrics, axis=0)
 	medians = np.median(metrics, axis=0)
@@ -141,6 +142,21 @@ def evaluate_for_one_fold(files_fold,sigma=2,theta=0.5,fold_description='None'):
 	results[0,14:18] = q3
 
 	return results
+
+
+def save_prediction(real, prediction, file_path):
+	data_set_name = name_set_to_apply.split('_')[0].lower()
+	predictions_folder = f'{base_result_filename}predictions/{data_set_name}'
+
+	if not os.path.exists(predictions_folder):
+		os.mkdir(predictions_folder)
+	
+	pullback_name = file_path.split('/')[-1].split('.')[0]
+	output_file_path = f'{predictions_folder}/{pullback_name}.csv'
+
+	with open(output_file_path, 'w') as csv_file:
+		for p, r in zip(prediction, real):
+			csv_file.write(f'{p},{r}\n')
 
 
 nfolds = len(list_subdirs_to_scan)
